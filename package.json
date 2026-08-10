@@ -11,7 +11,7 @@
     "url": "git+https://github.com/Iliascka/se_project_express.git"
   },
   "license": "ISC",
-  "author": "Ilias",
+  "author": "Ilias Katsantonis",
   "type": "commonjs",
   "main": "index.js",
   "scripts": {
@@ -21,7 +21,9 @@
     "dev": "nodemon app.js"
   },
   "dependencies": {
-    "express": "^4.22.2"
+    "express": "^4.22.2",
+    "mongoose": "^8.24.2",
+    "validator": "^13.15.35"
   },
   "devDependencies": {
     "eslint": "^8.57.1",
