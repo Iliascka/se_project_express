@@ -1,14 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const { getUsers, createUser } = require("../controllers/users");
 
-router.get("/", () => {
-  console.log("GET USERS");
-});
-router.get("/:userId", (req, res) => {
-  res.send(`This is the user id:${req.params.userId}`);
-});
-router.post("/", () => {
-  console.log("Post Users");
-});
+router.get("/", getUsers);
+router.get("/:userId", getUsers);
+router.post("/", createUser);
 
 module.exports = router;
