@@ -40,4 +40,4 @@ const getUser = (req, res) => {
     });
 };
 
-module.exports = { getUsers, createUser };
+module.exports = { getUsers, getUser, createUser };
