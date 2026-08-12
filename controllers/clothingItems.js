@@ -69,9 +69,56 @@ const deleteItem = (req, res) => {
     });
 };
 
+const likeItem = (req, res) => {
+  const { itemId } = req.params;
+  ClothingItem.findByIdAndUpdate(
+    itemId,
+    { $addToSet: { likes: req.user._id } },
+    { new: true }
+  )
+    .orFail()
+    .then((item) => res.status(200).send(item))
+    .catch((err) => {
+      console.error(err);
+      if (err.name === "CastError") {
+        return res.status(400).send({ message: "Invalid item ID" });
+      }
+      if (err.name === "DocumentNotFoundError") {
+        return res
+          .status(404)
+          .send({ message: "Requested resource not found" });
+      }
+      return res.status(500).send({ message: err.message });
+    });
+};
+const dislikeItem = (req, res) => {
+  const { itemId } = req.params;
+  ClothingItem.findByIdAndUpdate(
+    itemId,
+    { $pull: { likes: req.user._id } },
+    { new: true }
+  )
+    .orFail()
+    .then((item) => res.status(200).send(item))
+    .catch((err) => {
+      console.error(err);
+      if (err.name === "CastError") {
+        return res.status(400).send({ message: "Invalid item ID" });
+      }
+      if (err.name === "DocumentNotFoundError") {
+        return res
+          .status(404)
+          .send({ message: "Requested resource not found" });
+      }
+      return res.status(500).send({ message: err.message });
+    });
+};
+
 module.exports = {
   getItems,
   createItem,
   updateItem,
   deleteItem,
+  likeItem,
+  dislikeItem,
 };
