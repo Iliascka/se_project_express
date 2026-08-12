@@ -1,11 +1,12 @@
 const ClothingItem = require("../models/clothingItem");
+const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("../utils/errors");
 
 const getItems = (req, res) => {
   ClothingItem.find({})
     .then((items) => res.status(200).send(items))
     .catch((err) => {
       console.error(err);
-      return res.status(500).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: err.message });
     });
 };
 
@@ -17,9 +18,9 @@ const createItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(400).send({ message: err.mesage });
+        return res.status(BAD_REQUEST).send({ message: err.mesage });
       }
-      return res.status(500).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: err.message });
     });
 };
 
@@ -36,17 +37,17 @@ const updateItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(400).send({ message: err.message });
+        return res.status(BAD_REQUEST).send({ message: err.message });
       }
       if (err.name === "CastError") {
-        return res.status(400).send({ message: "Invalid item ID" });
+        return res.status(BAD_REQUEST).send({ message: "Invalid item ID" });
       }
       if (err.name === "DocumentNotFoundError") {
-        return res.status(404).send({
+        return res.status(NOT_FOUND).send({
           message: "Requested resource  not found",
         });
       }
-      return res.status(500).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: err.message });
     });
 };
 
@@ -58,14 +59,14 @@ const deleteItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "CastError") {
-        return res.status(400).send({ message: "Invalid item ID" });
+        return res.status(BAD_REQUEST).send({ message: "Invalid item ID" });
       }
       if (err.name === "DocumentNotFoundError") {
         return res
-          .status(404)
+          .status(NOT_FOUND)
           .send({ message: "Requested resource not found" });
       }
-      return res.status(500).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: err.message });
     });
 };
 
@@ -81,14 +82,14 @@ const likeItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "CastError") {
-        return res.status(400).send({ message: "Invalid item ID" });
+        return res.status(BAD_REQUEST).send({ message: "Invalid item ID" });
       }
       if (err.name === "DocumentNotFoundError") {
         return res
-          .status(404)
+          .status(NOT_FOUND)
           .send({ message: "Requested resource not found" });
       }
-      return res.status(500).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: err.message });
     });
 };
 const dislikeItem = (req, res) => {
@@ -103,14 +104,14 @@ const dislikeItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "CastError") {
-        return res.status(400).send({ message: "Invalid item ID" });
+        return res.status(BAD_REQUEST).send({ message: "Invalid item ID" });
       }
       if (err.name === "DocumentNotFoundError") {
         return res
-          .status(404)
+          .status(NOT_FOUND)
           .send({ message: "Requested resource not found" });
       }
-      return res.status(500).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: err.message });
     });
 };
 
