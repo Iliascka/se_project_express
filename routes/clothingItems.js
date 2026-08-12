@@ -1,14 +1,16 @@
 const express = require("express");
 const router = express.Router();
 
-router.get("/", () => {
-  console.log("Get Items");
-});
-router.post("/", () => {
-  console.log("Get Items");
-});
-router.delete("/:itemId", () => {
-  console.log("Get Items");
-});
+const {
+  getItems,
+  createItem,
+  updateItem,
+  deleteItem,
+} = require("../controllers/clothingItems");
+
+router.get("/", getItems);
+router.post("/", createItem);
+router.put("/:itemId", updateItem);
+router.delete("/:itemId", deleteItem);
 
 module.exports = router;
