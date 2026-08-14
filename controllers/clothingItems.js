@@ -6,7 +6,7 @@ const getItems = (req, res) => {
     .then((items) => res.status(200).send(items))
     .catch((err) => {
       console.error(err);
-      return res.status(SERVER_ERROR).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: "Server error" });
     });
 };
 
@@ -18,9 +18,9 @@ const createItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+        return res.status(BAD_REQUEST).send({ message: "Server error" });
       }
-      return res.status(SERVER_ERROR).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: "Server error" });
     });
 };
 
@@ -39,7 +39,7 @@ const deleteItem = (req, res) => {
           .status(NOT_FOUND)
           .send({ message: "Requested resource not found" });
       }
-      return res.status(SERVER_ERROR).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: "Server error" });
     });
 };
 
@@ -62,7 +62,7 @@ const likeItem = (req, res) => {
           .status(NOT_FOUND)
           .send({ message: "Requested resource not found" });
       }
-      return res.status(SERVER_ERROR).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: "Server error" });
     });
 };
 const dislikeItem = (req, res) => {
@@ -84,7 +84,7 @@ const dislikeItem = (req, res) => {
           .status(NOT_FOUND)
           .send({ message: "Requested resource not found" });
       }
-      return res.status(SERVER_ERROR).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: "Server error" });
     });
 };
 

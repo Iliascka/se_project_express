@@ -6,7 +6,7 @@ const getUsers = (req, res) => {
     .then((users) => res.status(200).send(users))
     .catch((err) => {
       console.error(err);
-      return res.status(SERVER_ERROR).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: "Server error" });
     });
 };
 
@@ -17,9 +17,9 @@ const createUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST).send({ message: err.message });
+        return res.status(BAD_REQUEST).send({ message: "Server error" });
       }
-      return res.status(SERVER_ERROR).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: "Server error" });
     });
 };
 
@@ -39,7 +39,7 @@ const getUser = (req, res) => {
       if (err.name === "CastError") {
         return res.status(BAD_REQUEST).send({ message: "Invalid user ID" });
       }
-      return res.status(SERVER_ERROR).send({ message: err.message });
+      return res.status(SERVER_ERROR).send({ message: "Server error" });
     });
 };
 
