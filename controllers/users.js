@@ -20,7 +20,7 @@ const createUser = (req, res) => {
     .then((hash) => {
       return User.create({ name, avatar, email, password: hash });
     })
-    .then((user) => res.status(201).send(user))
+    .then((user) => res.status(201).send({ user, message: "Well Done!!" }))
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
