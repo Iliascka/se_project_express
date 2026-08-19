@@ -1,7 +1,14 @@
-const User = require("../models/user");
-const { BAD_REQUEST, NOT_FOUND, SERVER_ERROR } = require("../utils/errors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const User = require("../models/user");
+const {
+  BAD_REQUEST,
+  UNAUTHORIZED,
+  NOT_FOUND,
+  CONFLICT,
+  SERVER_ERROR,
+} = require("../utils/errors");
+
 const { JWT_SECRET } = require("../utils/config");
 
 const getUsers = (req, res) => {
@@ -17,9 +24,7 @@ const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
   bcrypt
     .hash(password, 10)
-    .then((hash) => {
-      return User.create({ name, avatar, email, password: hash });
-    })
+    .then((hash) => User.create({ name, avatar, email, password: hash }))
     .then((user) => {
       const userObject = user.toObject();
       delete userObject.password;
@@ -31,7 +36,7 @@ const createUser = (req, res) => {
         return res.status(BAD_REQUEST).send({ message: "Server error" });
       }
       if (err.code === 11000) {
-        return res.status(409).send({ message: "Conflict error" });
+        return res.status(CONFLICT).send({ message: "Conflict error" });
       }
       return res.status(SERVER_ERROR).send({ message: "Server error" });
     });
@@ -66,8 +71,8 @@ const loginUser = (req, res) => {
       });
       res.send({ token });
     })
-    .catch((err) => {
-      res.status(401).send("Incorect email or password");
+    .catch(() => {
+      res.status(UNAUTHORIZED).send("Incorect email or password");
     });
 };
 
