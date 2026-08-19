@@ -33,8 +33,8 @@ const createUser = (req, res) => {
     });
 };
 
-const getUser = (req, res) => {
-  const { userId } = req.params;
+const getCurrentUser = (req, res) => {
+  const { userId } = req.user;
   User.findById(userId)
     .orFail()
     .then((user) => res.status(200).send(user))
@@ -60,11 +60,42 @@ const loginUser = (req, res) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
         expiresIn: "7d",
       });
-      res.send(token);
+      res.send({ token });
     })
     .catch((err) => {
       res.status(401).send("Incorect email or password");
     });
 };
 
-module.exports = { getUsers, getUser, createUser, loginUser };
+const updateProfile = (req, res) => {
+  const { name, avatar } = req.body;
+  User.findByIdAndUpdate(
+    req.user._id,
+    { name, avatar },
+    {
+      new: true,
+      runValidators: true,
+    }
+  )
+    .orFail()
+    .then((user) => res.status(200).send(user))
+    .catch((err) => {
+      if (err.name === "DocumentNotFoundError") {
+        return res
+          .status(NOT_FOUND)
+          .send({ message: "Requested resource not found" });
+      }
+      if (err.name === "ValidationError") {
+        return res.status(BAD_REQUEST).send({ message: "Invalid user data" });
+      }
+      return res.status(SERVER_ERROR).send({ message: "Server error" });
+    });
+};
+
+module.exports = {
+  getUsers,
+  getCurrentUser,
+  createUser,
+  loginUser,
+  updateProfile,
+};
