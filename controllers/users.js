@@ -12,18 +12,14 @@ const {
 
 const { JWT_SECRET } = require("../utils/config");
 
-const getUsers = (req, res) => {
-  User.find({})
-    .then((users) => res.status(200).send(users))
-    .catch((err) => {
-      console.error(err);
-      return res.status(SERVER_ERROR).send({ message: "Server error" });
-    });
-};
-
 const createUser = (req, res) => {
   const { name, avatar, email, password } = req.body;
-  bcrypt
+  if (!email || !password) {
+    return res
+      .status(BAD_REQUEST)
+      .send({ message: "Email and password are required" });
+  }
+  return bcrypt
     .hash(password, 10)
     .then((hash) => User.create({ name, avatar, email, password: hash }))
     .then((user) => {
@@ -34,7 +30,7 @@ const createUser = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST).send({ message: "Server error" });
+        return res.status(BAD_REQUEST).send({ message: "Invalid user data" });
       }
       if (err.code === 11000) {
         return res.status(CONFLICT).send({ message: "Conflict error" });
@@ -75,8 +71,15 @@ const loginUser = (req, res) => {
       });
       res.send({ token });
     })
-    .catch(() => {
-      res.status(UNAUTHORIZED).send({ message: "Incorect email or password" });
+    .catch((err) => {
+      if (err.message === "Incorrect email or password") {
+        return res
+          .status(UNAUTHORIZED)
+          .send({ message: "Incorrect email or password" });
+      }
+      return res
+        .status(UNAUTHORIZED)
+        .send({ message: "Incorrect email or password" });
     });
 };
 
@@ -106,7 +109,6 @@ const updateProfile = (req, res) => {
 };
 
 module.exports = {
-  getUsers,
   getCurrentUser,
   createUser,
   loginUser,

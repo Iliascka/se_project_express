@@ -23,7 +23,7 @@ const createItem = (req, res) => {
     .catch((err) => {
       console.error(err);
       if (err.name === "ValidationError") {
-        return res.status(BAD_REQUEST).send({ message: "Server error" });
+        return res.status(BAD_REQUEST).send({ message: "Invalid item data" });
       }
       return res.status(SERVER_ERROR).send({ message: "Server error" });
     });
