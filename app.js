@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const mongoose = require("mongoose");
 const mainRouter = require("./routes");
 
@@ -13,5 +14,5 @@ mongoose
   .catch(console.error);
 
 app.use(express.json());
-
+app.use(cors());
 app.use("/", mainRouter);

@@ -5,7 +5,7 @@ const { NOT_FOUND } = require("../utils/errors");
 
 const router = express.Router();
 
-router.use("/users", userRouter);
+router.use("/", userRouter);
 router.use("/items", clothingItemsRouter);
 router.use((req, res) => {
   res.status(NOT_FOUND).send({

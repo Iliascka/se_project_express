@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const validator = require("validator");
 const User = require("../models/user");
 const {
   BAD_REQUEST,
@@ -28,7 +29,7 @@ const createUser = (req, res) => {
     .then((user) => {
       const userObject = user.toObject();
       delete userObject.password;
-      return res.status(201).send({ user: userObject, message: "Well Done!!" });
+      return res.status(201).send(userObject);
     })
     .catch((err) => {
       console.error(err);
@@ -43,8 +44,8 @@ const createUser = (req, res) => {
 };
 
 const getCurrentUser = (req, res) => {
-  const { userId } = req.user;
-  User.findById(userId)
+  const { _id } = req.user;
+  User.findById(_id)
     .orFail()
     .then((user) => res.status(200).send(user))
     .catch((err) => {
@@ -64,6 +65,9 @@ const getCurrentUser = (req, res) => {
 
 const loginUser = (req, res) => {
   const { email, password } = req.body;
+  if (!email || !password || !validator.isEmail(email)) {
+    return res.status(BAD_REQUEST).send({ message: "Invalid credentials" });
+  }
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, JWT_SECRET, {
@@ -72,7 +76,7 @@ const loginUser = (req, res) => {
       res.send({ token });
     })
     .catch(() => {
-      res.status(UNAUTHORIZED).send("Incorect email or password");
+      res.status(UNAUTHORIZED).send({ message: "Incorect email or password" });
     });
 };
 

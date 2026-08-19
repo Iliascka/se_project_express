@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post("/signin", loginUser);
 router.post("/signup", createUser);
-router.get("/me", authorizeUser, getCurrentUser);
-router.patch("/me", authorizeUser, updateProfile);
+router.get("/users/me", authorizeUser, getCurrentUser);
+router.patch("/users/me", authorizeUser, updateProfile);
 
 module.exports = router;
