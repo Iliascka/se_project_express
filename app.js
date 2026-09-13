@@ -3,6 +3,7 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const mainRouter = require("./routes");
 const { errors } = require("celebrate");
+const errorHandler = require("./middlewares/error-handler");
 const { requestLogger, errorLogger } = require("./middlewares/logger");
 
 const app = express();
@@ -21,4 +22,4 @@ app.use(requestLogger);
 app.use("/", mainRouter);
 app.use(errorLogger);
 app.use(errors());
-// app.use(errorHandler);
+app.use(errorHandler);
