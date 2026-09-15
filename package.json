@@ -38,5 +38,8 @@
     "eslint-plugin-import": "^2.32.0",
     "nodemon": "^3.1.14",
     "prettier": "^2.8.8"
+  },
+  "allowScripts": {
+    "bcrypt@6.0.0": true
   }
 }
