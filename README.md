@@ -13,6 +13,14 @@ The back end for the WTWR application provides a REST API for managing users and
 - REST API routing and controllers
 - Error handling and data validation
 
+## Frontend Repository
+
+[WTWR Frontend](https://github.com/Iliascka/se_project_react.git)
+
+## Deployed Project
+
+[WTWR Live Site](https://wtwr-ilias.aerwear.ro)
+
 ## Project Pitch Video
 
-Check out this video [https://www.loom.com/share/9f5e12f7d2f84a28924d2a73f9f3fcd5] where I describe my project.
+Check out this video [https://www.loom.com/share/2682fec991b0402e8dcbe19fadec75d7] where I describe my project.
