@@ -5,10 +5,10 @@ const { NotFoundError } = require("../utils/errors");
 
 const router = express.Router();
 
-router.use("/", userRouter);
+router.use("/users", userRouter);
 router.use("/items", clothingItemsRouter);
-router.use((req, res, next) => {
-  return next(new NotFoundError("Requested resourse not found"));
-});
+router.use((req, res, next) =>
+  next(new NotFoundError("Requested resource not found"))
+);
 
 module.exports = router;
