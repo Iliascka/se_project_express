@@ -5,7 +5,7 @@ const validateURL = (value, helpers) => {
   if (validator.isURL(value)) {
     return value;
   }
-  return helpers.errorr("string.uri");
+  return helpers.error("string.uri");
 };
 
 const validateClothingItemBody = celebrate({
@@ -15,6 +15,7 @@ const validateClothingItemBody = celebrate({
       "string.max": 'The maximum length of the "name" field is 30',
       "string.empty": 'The "name" field must be filled in',
     }),
+    weather: Joi.string().required().valid("hot", "warm", "cold"),
     imageUrl: Joi.string().required().custom(validateURL).messages({
       "string.empty": 'The "imageUrl" field must be filled in',
       "string.uri": 'The "imageUrl" field must be a valid url',

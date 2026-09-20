@@ -7,11 +7,16 @@ const {
   updateProfile,
 } = require("../controllers/users");
 
+const {
+  validateUserBody,
+  validateLogin,
+} = require("../middlewares/validation");
+
 const router = express.Router();
 
-router.post("/signin", loginUser);
-router.post("/signup", createUser);
+router.post("/signin", validateLogin, loginUser);
+router.post("/signup", validateUserBody, createUser);
 router.get("/users/me", authorizeUser, getCurrentUser);
-router.patch("/users/me", authorizeUser, updateProfile);
+router.patch("/users/me", authorizeUser, validateUserBody, updateProfile);
 
 module.exports = router;
