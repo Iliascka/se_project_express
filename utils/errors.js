@@ -5,6 +5,49 @@ const NOT_FOUND = 404;
 const CONFLICT = 409;
 const SERVER_ERROR = 500;
 
+class AppError extends Error {
+  constructor(message, statusCode) {
+    super(message);
+    this.statusCode = statusCode;
+  }
+}
+
+class BadRequestError extends AppError {
+  constructor(message) {
+    super(message, BAD_REQUEST);
+  }
+}
+
+class UnauthorizedError extends AppError {
+  constructor(message) {
+    super(message, UNAUTHORIZED);
+  }
+}
+
+class ForbiddenError extends AppError {
+  constructor(message) {
+    super(message, FORBIDDEN);
+  }
+}
+
+class NotFoundError extends AppError {
+  constructor(message) {
+    super(message, NOT_FOUND);
+  }
+}
+
+class ConflictError extends AppError {
+  constructor(message) {
+    super(message, CONFLICT);
+  }
+}
+
+class ServerError extends AppError {
+  constructor(message) {
+    super(message, SERVER_ERROR);
+  }
+}
+
 module.exports = {
   BAD_REQUEST,
   NOT_FOUND,
@@ -12,4 +55,10 @@ module.exports = {
   UNAUTHORIZED,
   FORBIDDEN,
   CONFLICT,
+  BadRequestError,
+  UnauthorizedError,
+  ForbiddenError,
+  NotFoundError,
+  ConflictError,
+  ServerError,
 };
