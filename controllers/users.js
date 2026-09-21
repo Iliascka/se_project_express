@@ -71,7 +71,7 @@ const loginUser = (req, res, next) => {
       if (err.message === "Incorrect email or password") {
         return next(new UnauthorizedError("Incorrect email or password"));
       }
-      return next(new UnauthorizedError("Incorrect email or password"));
+      return next(new ServerError("Incorrect email or password"));
     });
 };
 
